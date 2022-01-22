@@ -46,13 +46,13 @@ falsy = 0 // number 0
 falsy = NaN // number NaN
 falsy = '' // empty string
 
-    // All other values are considered truthy
-    // This means that the following code is unnecessary:
-    === undefined
-    === null
-    === true
-    === false
-    === 0
+// All other values are considered truthy
+// This means that the following code is unnecessary:
+=== undefined
+=== null
+=== true
+=== false
+=== 0
 
 /* ------ An example of the wrong and right ways to evaluate falsyness ------ */
 
