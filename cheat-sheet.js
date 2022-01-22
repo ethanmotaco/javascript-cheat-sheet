@@ -11,8 +11,8 @@ var undefinedVariable // Undefined is a variable that has not yet been assigned 
 var nullVariable = null // Null is an empty variable like undefined but it is assigned the null value explicitly
 var number = 1 // Number is a double-precision 64-bit binary format IEEE 754 value. In addition to representing floating-point numbers, the number type has three symbolic values: +Infinity, -Infinity, and NaN ("Not a Number")
 var bigint = 1n // BigInt is an integer with arbitrary precision. BigInts can safely store and operate on large integers even beyond the safe integer limit for Numbers
-var string = 'hello world' // String is a sequence of characters used to represent text.
-var symbol = Symbol('sym') // Symbol is a built-in object whose constructor returns a symbol primitive that is guaranteed to be unique.
+var string = 'hello world' // String is a sequence of characters used to represent text
+var symbol = Symbol('sym') // Symbol is a built-in object whose constructor returns a symbol primitive that is guaranteed to be unique
 
 // The typeof operator can be used to check the type of a variable
 console.log(typeof boolean) // boolean
@@ -21,7 +21,11 @@ console.log(typeof boolean) // boolean
 /*                                  VARIABLES                                 */
 /* -------------------------------------------------------------------------- */
 
-//TODO add variables
+var x = 'x' // Variables declared with the 'var' keyword can be globally scoped or locally scoped
+
+let y = 'y' // Variables declared with the 'let' keyword are similar to var but are limited to the scope of a block statement
+
+const z = 'z' // Variables declared with the 'const' keyword have constant values that cannot be changed
 
 /* -------------------------------------------------------------------------- */
 /*                                CONTEXT/THIS                                */
@@ -30,10 +34,82 @@ console.log(typeof boolean) // boolean
 //TODO add context/this
 
 /* -------------------------------------------------------------------------- */
-/*                           CONDITIONAL STATEMENTS                           */
+/*                               TRUTHY VS FALSY                              */
 /* -------------------------------------------------------------------------- */
 
-//TODO add conditional statements
+// Falsy values
+
+var falsy; // undefined
+falsy = null // null
+falsy = false // boolean false
+falsy = 0 // number 0
+falsy = NaN // number NaN
+falsy = '' // empty string
+
+    // All other values are considered truthy
+    // This means that the following code is unnecessary:
+    === undefined
+    === null
+    === true
+    === false
+    === 0
+
+/* ------ An example of the wrong and right ways to evaluate falsyness ------ */
+
+var variable;
+
+if (variable === undefined) { // Wrong way
+    console.log('Dont do this');
+}
+
+if (!variable) { // Right way
+    console.log('Do this');
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                CONTROL FLOW                                */
+/* -------------------------------------------------------------------------- */
+
+/* ------------------------- Conditional Statements ------------------------- */
+
+/*
+    A conditional statement is a set of commands that executes if a specified condition is true 
+    JavaScript supports two conditional statements: 'if...else' and 'switch'
+*/
+
+// An 'if' statement looks like this:
+var truthy;
+
+if (truthy) { // An 'if' statement will execute a statement if a logical condition (truthy) evaluates to true
+    console.log('Do this');
+} else if (truthy == null) { // An 'else if' statement will execute if the statement before it has evaluated to false and the current statement evaluates to true
+    console.log('Do that');
+} else { // An 'else' statement will only execute if all other statements evaluate to false
+    console.log('Do the other thing');
+}
+
+// A 'switch' statement looks like this:
+var fruit = 'Strawberry'
+
+switch (fruit) {
+    case 'Grape':
+        console.log('🍇');
+        break;
+    case 'Banana':
+        console.log('🍌');
+        break;
+    case 'Apple':
+        console.log('🍎');
+        break;
+    case 'Strawberry':
+        console.log('🍓');
+        break;
+    case 'Lemon':
+        console.log('🍋');
+        break;
+    default:
+        console.log(`Sorry, we are out of ${fruit}s.`);
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                    LOOPS                                   */
@@ -45,7 +121,59 @@ console.log(typeof boolean) // boolean
 /*                                  FUNCTIONS                                 */
 /* -------------------------------------------------------------------------- */
 
-//TODO add functions
+/*
+    A function is a section of code that takes an input as arguments and produces an output or return value when it is called
+*/
+
+/* ------------ Creating a function using the 'function' keyword ------------ */
+
+function addSmiley(input) {
+    const output = input + ' 🙂'
+    return output
+}
+
+console.log(addSmiley('happy')) // 'happy 🙂'
+
+/* ----------------- Creating a function using arrow syntax ----------------- */
+
+const addFrowny = (input) => input + ' ☹️'
+
+console.log(addFrowny('sad')) // 'sad ☹️'
+
+/* -------------------------------------------------------------------------- */
+/*                           HIGHER-ORDER FUNCTIONS                           */
+/* -------------------------------------------------------------------------- */
+
+/*
+    A higher-order function is a function that accepts functions as parameters and/or returns a function.
+*/
+
+/* -- A higher-order function that can take another function as a parameter - */
+
+function download(callback) { // Passing download a callback function allows it to call that function later
+    console.log('loading files');
+    callback()
+}
+
+// A callback function is a function that is passed into another function as an argument
+function onDownloadComplete() { // This function will be called during the execution of the higher-order function that it is an argument of (download)
+    console.log('loading complete')
+}
+
+download(onDownloadComplete) // The download function will first log 'loading files' and then it will call the onDownloadComplete function which will output 'loading complete'
+
+/* ----------- A higher-order function can return another function ----------- */
+
+function multiplier(factor) {
+    return (x) => { return x * factor }; // This function will return a function that multiplies x by the factor argument provided to the multiplier function
+}
+
+let doubler = multiplier(2) // Doubler is a generated function that will multiply the arugment by 2
+console.log(doubler(3)) // 6
+
+let tripler = multiplier(3) // Tripler is a generated function that will multiply the arugment by 3
+console.log(tripler(3)) // 9
+
 
 /* -------------------------------------------------------------------------- */
 /*                                   OBJECTS                                  */
@@ -144,11 +272,11 @@ for (const [key, value] of Object.entries(dog)) { // Will loop over all properti
 /* ------------- Creating an object using a constructor function ------------ */
 
 /*
-    A constructor function is similar to a class in other languages or how the 'class' keyword works in JavaScript
-
-    It can be used to define how an object is created
+    A constructor function can be used to define how an object is created
 
     It can take arguments and do additional setup like defining additional properties and methods
+
+    It is conceptually similar to a class in other languages and is essentially how the 'class' keyword works in JavaScript
 */
 
 function Tree(species) { // Constructor function name should be capitalized
@@ -188,7 +316,32 @@ console.log(Object.getPrototypeOf(vehicle)); // Using the static method 'getProt
 /*                                  CLOSURES                                  */
 /* -------------------------------------------------------------------------- */
 
-//TODO add closures
+/*
+    A closure is a function within a function where the inner function references a variable that is scoped to the outer function
+
+    The variables in the the outer function will be maintained in memory even after that function returns and is popped off of the call stack
+    The inner function will always have a reference to the state of the outer function at the time it was created
+
+    Conceptually, a closure is similar to a class in other programming languages since it has its own internal state which can be changed by its inner "methods"
+*/
+
+function outer() { // Outer function
+
+    let count = 0; // Variable scoped to outer function
+
+    function inner() { // Inner function
+        count++;
+        return count; // Inner function maintains reference to outer function's variables
+    }
+
+    return inner
+}
+
+const counter = outer(); // Even though the outer function has only been called once, the inner function will still have access to its local variables 
+
+console.log(counter()) // 1
+console.log(counter()) // 2
+console.log(counter()) // 3
 
 /* -------------------------------------------------------------------------- */
 /*                                  PROMISES                                  */
